@@ -1,10 +1,10 @@
 import streamlit as st
 
-def calculate_macros(weight):
-    # Daily intake
-    carbs_per_day = weight * 2
-    fat_per_day = weight * 0.8
-    protein_per_day = weight * 1
+def calculate_macros(weight_kg):
+    # Daily intake in grams
+    carbs_per_day = weight_kg * 2
+    fat_per_day = weight_kg * 0.8
+    protein_per_day = weight_kg * 1
 
     # Weekly intake totals
     weekly_carbs = carbs_per_day * 7
@@ -20,7 +20,7 @@ def calculate_macros(weight):
     moderate_carb_day_fat = weekly_fat * 0.35 / 3
 
     # Output results
-    st.write(f"Daily and weekly nutrition intake for weight: {weight} kg")
+    st.write(f"Daily and weekly nutrition intake for weight: {weight_kg:.1f} kg")
     st.write(f"Daily carbs intake: {carbs_per_day:.1f} g")
     st.write(f"Daily fat intake: {fat_per_day:.1f} g")
     st.write(f"Daily protein intake: {protein_per_day:.1f} g")
@@ -36,7 +36,19 @@ def calculate_macros(weight):
     st.write()
     st.write("Protein intake recommendation: Consume 20-40g of protein per meal, every 3-4 hours.")
 
+# App title
 st.title("Carb Cycling Nutrition Calculator")
-weight = st.number_input("Enter weight (kg):", min_value=30.0, max_value=150.0, step=0.1)
+
+# Weight input with unit selection
+unit = st.radio("Select weight unit:", ("kg", "lb"))
+weight = st.number_input("Enter weight:", min_value=30.0, max_value=150.0, step=0.1)
+
+# Convert weight to kg if needed
+if unit == "lb":
+    weight_kg = weight * 0.453592  # Convert pounds to kilograms
+else:
+    weight_kg = weight
+
+# Run calculation if a weight is entered
 if weight:
-    calculate_macros(weight)
+    calculate_macros(weight_kg)
