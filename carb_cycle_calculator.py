@@ -39,15 +39,18 @@ def calculate_macros(weight_kg):
 # App title
 st.title("Carb Cycling Nutrition Calculator")
 
-# Weight input with unit selection
+# Unit selection
 unit = st.radio("Select weight unit:", ("kg", "lb"))
-weight = st.number_input("Enter weight:", min_value=30.0, max_value=150.0, step=0.1)
 
-# Convert weight to kg if needed
-if unit == "lb":
-    weight_kg = weight * 0.453592  # Convert pounds to kilograms
-else:
+# Weight input without max value limit
+if unit == "kg":
+    weight_label = "Enter weight (kg):"
+    weight = st.number_input(weight_label, min_value=0.0, step=0.1)
     weight_kg = weight
+else:
+    weight_label = "Enter weight (lb):"
+    weight = st.number_input(weight_label, min_value=0.0, step=0.1)
+    weight_kg = weight * 0.453592  # Convert pounds to kilograms
 
 # Run calculation if a weight is entered
 if weight:
